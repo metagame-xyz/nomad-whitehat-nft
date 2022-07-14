@@ -13,7 +13,6 @@ contract logbook is ERC721, Ownable {
     mapping(address => uint256) public minted;
     uint256 public constant price = 0.01 ether;
     address public constant signer = 0x3EDfd44082A87CF1b4cbB68D6Cf61F0A40d0b68f;
-    uint256 public reverseBirthday;
     bool public mintActive;
     uint256 public freeMints;
     uint256 public mintsPerAddress;
@@ -30,7 +29,6 @@ contract logbook is ERC721, Ownable {
     ) ERC721(_name, _symbol) {
         metadataFolderURI = _metadataFolderURI;
         freeMints = _freeMints;
-        reverseBirthday = block.number;
         mintsPerAddress = _mintsPerAddress;
         openseaContractMetadataURL = _openseaContractMetadataURL;
         mintActive = _mintActive;
