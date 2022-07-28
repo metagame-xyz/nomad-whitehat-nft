@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: GNU LGPLv3
 pragma solidity 0.8.10;
 
-import "openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
-import "openzeppelin-contracts/contracts/access/Ownable.sol";
-import "openzeppelin-contracts/contracts/utils/Counters.sol";
-import "openzeppelin-contracts/contracts/utils/Strings.sol";
-
 contract logbook is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
