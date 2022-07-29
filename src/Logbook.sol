@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GNU LGPLv3
-pragma solidity 0.8.10;
+pragma solidity 0.8.13;
 
 import "openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import "openzeppelin-contracts/contracts/access/Ownable.sol";

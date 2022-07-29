@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity 0.8.13;
 
 import "forge-std/Script.sol";
 import "../src/Logbook.sol";
@@ -8,7 +8,7 @@ contract DeployLogbook is Script {
     function run() external {
         vm.startBroadcast();
 
-        Logbook logbook = new Logbook(
+        logbook logbookInstance = new logbook(
             "Logbook", // name
             "LGBK", // symbol
             "NOT_IMPLEMENTED", // metadata folder uri
