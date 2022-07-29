@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.10;
+// SPDX-License-Identifier: GNU LGPLv3
+pragma solidity 0.8.13;
 
 import "openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import "openzeppelin-contracts/contracts/access/Ownable.sol";
@@ -9,10 +9,11 @@ import "openzeppelin-contracts/contracts/utils/Strings.sol";
 contract logbook is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
+    bytes32 immutable DOMAIN_SEPARATOR;
     string public metadataFolderURI;
     mapping(address => uint256) public minted;
     uint256 public constant price = 0.01 ether;
-    address public constant signer = 0x3EDfd44082A87CF1b4cbB68D6Cf61F0A40d0b68f;
+    address public validSigner;
     bool public mintActive;
     uint256 public freeMints;
     uint256 public mintsPerAddress;
@@ -25,13 +26,28 @@ contract logbook is ERC721, Ownable {
         uint256 _freeMints,
         uint256 _mintsPerAddress,
         string memory _openseaContractMetadataURL,
-        bool _mintActive
+        bool _mintActive,
+        address _validSigner
     ) ERC721(_name, _symbol) {
         metadataFolderURI = _metadataFolderURI;
         freeMints = _freeMints;
         mintsPerAddress = _mintsPerAddress;
         openseaContractMetadataURL = _openseaContractMetadataURL;
         mintActive = _mintActive;
+        validSigner = _validSigner;
+
+        DOMAIN_SEPARATOR = keccak256(
+            abi.encode(
+                keccak256("Metagame Logbook"),
+                keccak256("1"),
+                block.chainid,
+                address(this)
+            )
+        );
+    }
+
+    function setValidSigner(address _validSigner) external onlyOwner {
+        validSigner = _validSigner;
     }
 
     function setMetadataFolderURI(string calldata folderUrl) public onlyOwner {
@@ -70,7 +86,7 @@ contract logbook is ERC721, Ownable {
         bytes32 s
     ) public payable returns (uint256) {
         require(mintActive == true, "mint is not active rn..");
-        require(tx.origin == msg.sender, "dont get Seven'd");
+        // require(tx.origin == msg.sender, "dont get Seven'd");
         require(minter == msg.sender, "you have to mint for yourself");
         require(
             minted[msg.sender] < mintsPerAddress,
@@ -81,7 +97,7 @@ contract logbook is ERC721, Ownable {
             require(msg.value == price, "This mint costs 0.01 eth"); // TODO: set price
         }
 
-        bytes32 payloadHash = keccak256(abi.encode(minter));
+        bytes32 payloadHash = keccak256(abi.encode(DOMAIN_SEPARATOR, minter));
         bytes32 messageHash = keccak256(
             abi.encodePacked("\x19Ethereum Signed Message:\n32", payloadHash)
         );
@@ -89,7 +105,7 @@ contract logbook is ERC721, Ownable {
         address actualSigner = ecrecover(messageHash, v, r, s);
 
         require(actualSigner != address(0), "ECDSA: invalid signature");
-        require(actualSigner == signer, "Invalid signer");
+        require(actualSigner == validSigner, "Invalid signer");
 
         _tokenIds.increment();
 
@@ -121,5 +137,9 @@ contract logbook is ERC721, Ownable {
 
     function getBalance() external view returns (uint256) {
         return address(this).balance;
+    }
+
+    function getAddress() external view returns (address) {
+        return address(this);
     }
 }
