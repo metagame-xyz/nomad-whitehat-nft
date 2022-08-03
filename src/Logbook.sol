@@ -12,7 +12,7 @@ contract logbook is ERC721, Ownable {
     bytes32 immutable DOMAIN_SEPARATOR;
     string public metadataFolderURI;
     mapping(address => uint256) public minted;
-    uint256 public constant price = 0.01 ether;
+    uint256 public constant price = 0.02 ether;
     address public validSigner;
     bool public mintActive;
     uint256 public freeMints;
