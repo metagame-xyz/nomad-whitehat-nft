@@ -11,10 +11,10 @@ contract DeployLogbook is Script {
         logbook logbookInstance = new logbook(
             "Logbook", // name
             "LGBK", // symbol
-            "NOT_IMPLEMENTED", // metadata folder uri
+            "https://logbook-dev.themetagame.xyz/api/metadata/", // metadata folder uri
             0, // free mints
             100, // mints per address
-            "NOT_IMPLEMENTED", // opensea contract metadata url
+            "https://logbook-dev.themetagame.xyz/api/contract-metadata", // opensea contract metadata url
             true, // is mint active?
             0x3EDfd44082A87CF1b4cbB68D6Cf61F0A40d0b68f // valid signer
         );
