@@ -15,7 +15,6 @@ contract logbook is ERC721, Ownable {
     uint256 public constant price = 0.02 ether;
     address public validSigner;
     bool public mintActive;
-    uint256 public freeMints;
     uint256 public mintsPerAddress;
     string public openseaContractMetadataURL;
 
@@ -23,14 +22,12 @@ contract logbook is ERC721, Ownable {
         string memory _name,
         string memory _symbol,
         string memory _metadataFolderURI,
-        uint256 _freeMints,
         uint256 _mintsPerAddress,
         string memory _openseaContractMetadataURL,
         bool _mintActive,
         address _validSigner
     ) ERC721(_name, _symbol) {
         metadataFolderURI = _metadataFolderURI;
-        freeMints = _freeMints;
         mintsPerAddress = _mintsPerAddress;
         openseaContractMetadataURL = _openseaContractMetadataURL;
         mintActive = _mintActive;
@@ -75,10 +72,6 @@ contract logbook is ERC721, Ownable {
         return openseaContractMetadataURL;
     }
 
-    function isMintFree() public view returns (bool) {
-        return (freeMints > _tokenIds.current());
-    }
-
     function mintWithSignature(
         address minter,
         uint8 v,
@@ -93,9 +86,8 @@ contract logbook is ERC721, Ownable {
             "only 1 mint per wallet address"
         );
 
-        if (!isMintFree()) {
-            require(msg.value == price, "This mint costs 0.01 eth"); // TODO: set price
-        }
+        require(msg.value == price, "This mint costs 0.02 eth"); // TODO: set price
+        
 
         bytes32 payloadHash = keccak256(abi.encode(DOMAIN_SEPARATOR, minter));
         bytes32 messageHash = keccak256(

@@ -32,7 +32,6 @@ contract logbookTest is Test {
             "Logbook",
             "LGBK",
             "NOT_IMPLEMENTED",
-            0,
             1,
             "NOT_IMPLEMENTED",
             false,
@@ -48,11 +47,6 @@ contract logbookTest is Test {
     function testFailSetActiveByNonOwner() public {
         vm.prank(minter);
         logbookContract.setMintActive(true);
-    }
-
-    function testMintNotFree() public {
-        vm.prank(owner);
-        assertFalse(logbookContract.isMintFree());
     }
 
     function testMintWithSignature() public {
