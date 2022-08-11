@@ -4,7 +4,7 @@ pragma solidity 0.8.13;
 import "forge-std/Script.sol";
 import "../src/Whitehat.sol";
 
-contract DeployLogbook is Script {
+contract DeployWhitehat is Script {
     function run() external {
         vm.startBroadcast();
 
