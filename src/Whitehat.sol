@@ -6,13 +6,13 @@ import "openzeppelin-contracts/contracts/access/Ownable.sol";
 import "openzeppelin-contracts/contracts/utils/Counters.sol";
 import "openzeppelin-contracts/contracts/utils/Strings.sol";
 
-contract logbook is ERC721, Ownable {
+contract whitehat is ERC721, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     bytes32 immutable DOMAIN_SEPARATOR;
     string public metadataFolderURI;
     mapping(address => uint256) public minted;
-    uint256 public constant price = 0.02 ether;
+    uint256 public constant price = 0.0 ether;
     address public validSigner;
     bool public mintActive;
     uint256 public mintsPerAddress;
@@ -35,7 +35,7 @@ contract logbook is ERC721, Ownable {
 
         DOMAIN_SEPARATOR = keccak256(
             abi.encode(
-                keccak256("Metagame Logbook"),
+                keccak256("Metagame Nomad Whitehat"),
                 keccak256("1"),
                 block.chainid,
                 address(this)
@@ -86,7 +86,7 @@ contract logbook is ERC721, Ownable {
             "only 1 mint per wallet address"
         );
 
-        require(msg.value == price, "This mint costs 0.02 eth"); // TODO: set price
+        require(msg.value == price, "This mint is free");
         
 
         bytes32 payloadHash = keccak256(abi.encode(DOMAIN_SEPARATOR, minter));
