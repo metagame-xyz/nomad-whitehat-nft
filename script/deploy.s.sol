@@ -11,9 +11,9 @@ contract DeployWhitehat is Script {
          whitehat whitehatInstance = new whitehat(
             "Nomad Whitehat", // name
             "WHTHT", // symbol
-            "https://nomad-whitehat-dev.themetagame.xyz/api/v1/metadata/", // metadata folder uri
+            "https://whitehat.nomad.xyz/api/metadata/", // metadata folder uri
             100, // mints per address
-            "https://nomad-whitehat-dev.themetagame.xyz/api/v1/contract-metadata", // opensea contract metadata url
+            "https://whitehat.nomad.xyz/api/contract-metadata", // opensea contract metadata url
             true, // is mint active?
             0x3EDfd44082A87CF1b4cbB68D6Cf61F0A40d0b68f // valid signer
         );
